@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terminal Access</title>
+
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4248/4248443.png">
+
+<style>
+    body {
+        margin: 0;
+        background: black;
+        color: #00ff88;
+        font-family: monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .terminal {
+        width: 95%;
+        max-width: 800px;
+        height: 90vh;
+        overflow-y: auto;
+        padding: 15px;
+        border: 2px solid #00ff88;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #00ff88;
+    }
+
+    .line {
+        margin: 6px 0;
+        white-space: pre-wrap;
+        font-size: clamp(14px, 2.5vw, 18px);
+    }
+
+    @media (max-width: 600px) {
+        .terminal {
+            height: 100vh;
+            border: none;
+            border-radius: 0;
+        }
+    }
+</style>
+</head>
+
+<body onclick="goFullScreen()">
+
+<div class="terminal" id="terminal"></div>
+
+<script>
+const lines = [
+"> initializing system...",
+"> access granted",
+"",
+"> مرحباً",
+"",
+"> تم دعوتك من قبل الهاكرز",
+"> إلى مشروع التخرج",
+"",
+"> الموقع: فصل 3/6",
+"",
+"> loading...",
+"> ...",
+"> ...",
+"",
+"> مع تحياتنا:",
+"> الهاكر روان",
+"> الهاكر أرجوان",
+"> الهاكر لمار",
+"> الهاكر لمى",
+"> الهاكر ريدان",
+"> الهاكر بتول"
+];
+
+const terminal = document.getElementById("terminal");
+
+let lineIndex = 0;
+let charIndex = 0;
+
+function typeLine() {
+    if (lineIndex >= lines.length) return;
+
+    let currentLine = lines[lineIndex];
+    let div = document.createElement("div");
+    div.classList.add("line");
+    terminal.appendChild(div);
+
+    function typeChar() {
+        if (charIndex < currentLine.length) {
+            div.textContent += currentLine.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeChar, 30);
+        } else {
+            charIndex = 0;
+            lineIndex++;
+            terminal.scrollTop = terminal.scrollHeight;
+            setTimeout(typeLine, 350);
+        }
+    }
+
+    typeChar();
+}
+
+typeLine();
+
+function goFullScreen() {
+    let elem = document.documentElement;
+
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+    }
+}
+</script>
+
+</body>
+</html>
